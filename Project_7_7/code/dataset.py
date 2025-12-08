@@ -53,7 +53,7 @@ def is_corrupted(image_path):
 def process_and_copy(imgs, lbls, split_name):
     for img_path, lbl in zip(imgs, lbls):
         if is_corrupted(img_path):
-            print(f"⚠️ Corrupted image skipped: {img_path}")
+            print(f" Corrupted image skipped: {img_path}")
             continue
         img = Image.open(img_path).convert("RGB")
         img = img.resize(IMAGE_SIZE)
@@ -65,7 +65,7 @@ process_and_copy(train_imgs, train_lbls, "train")
 process_and_copy(val_imgs, val_lbls, "val")
 process_and_copy(test_imgs, test_lbls, "test")
 
-print("✔️ Dataset split and basic preprocessing done!")
+print(" Dataset split and basic preprocessing done")
 
 
 for split in ["train","val","test"]:
@@ -134,4 +134,4 @@ test_generator = test_val_datagen.flow_from_directory(
     shuffle=False
 )
 
-print("✔️ Advanced Data Generators ready — Train/Val/Test loaded with all augmentations!")
+print(" Advanced Data Generators ready — Train/Val/Test loaded with all augmentations")
