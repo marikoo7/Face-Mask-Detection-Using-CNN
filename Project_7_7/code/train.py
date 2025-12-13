@@ -19,12 +19,20 @@ FINE_TUNE_LR = 1e-5
 IMG_SIZE = IMAGE_SIZE
 NUM_CLASSES = 1
 
+SAVED_MODEL_DIR = '../saved_model'
+RESULTS_DIR = '../results'
+
+if not os.path.exists(SAVED_MODEL_DIR):
+    os.makedirs(SAVED_MODEL_DIR)
+if not os.path.exists(RESULTS_DIR):
+    os.makedirs(RESULTS_DIR)
+
 for MODEL_TYPE in MODELS_TO_TRAIN:
     print("\n" + "=" * 50)
     print(f"--- STARTING TRAINING FOR: {MODEL_TYPE.upper()} MODEL ---")
     print("=" * 50)
 
-    SAVE_PATH = f'saved_model/{MODEL_TYPE}_best_model.h5'
+    SAVE_PATH = f'{SAVED_MODEL_DIR}/{MODEL_TYPE}_best_model.h5'
 
     if MODEL_TYPE == 'efficientnet':
         current_lr = FINE_TUNE_LR
@@ -64,13 +72,10 @@ for MODEL_TYPE in MODELS_TO_TRAIN:
     print("\n-> Training finished.")
     print(f"Best model saved to: {SAVE_PATH}")
 
-    if not os.path.exists('results'):
-        os.makedirs('results')
-
     try:
-        with open(f'results/{MODEL_TYPE}_history.pkl', 'wb') as file_pi:
+        with open(f'{RESULTS_DIR}/{MODEL_TYPE}_history.pkl', 'wb') as file_pi:
             pickle.dump(history.history, file_pi)
-        print(f"Training history saved in results/{MODEL_TYPE}_history.pkl")
+        print(f"Training history saved in {RESULTS_DIR}/{MODEL_TYPE}_history.pkl")
     except Exception as e:
         print(f"Error saving history file for {MODEL_TYPE}: {e}")
 
