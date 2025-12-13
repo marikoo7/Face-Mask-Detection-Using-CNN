@@ -2,6 +2,7 @@ import os
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
+import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import (
     Conv2D, MaxPooling2D, Dense,
@@ -96,19 +97,32 @@ def build_efficientnet_transfer(img_size=(128, 128), num_classes=1, trainable_ba
         weights='imagenet'
     )
 
-    # freeze base model layers, we'll train only the top (can be unfrozen later for fine-tuning)
-    base_model.trainable = trainable_base
+    # fine-tuning logic
+    if trainable_base:
+        # freeze everything except last 40 layers
+        for layer in base_model.layers[:-40]:
+            layer.trainable = False
+        for layer in base_model.layers[-40:]:
+            layer.trainable = True
+    else:
+        base_model.trainable = False
 
     # build complete model
     model = Sequential([
         base_model,
         GlobalAveragePooling2D(),
         Dropout(0.4),
-        Dense(512, activation='relu'),
+
+        Dense(512, kernel_regularizer=tf.keras.regularizers.l2(1e-5)),
         BatchNormalization(),
+        tf.keras.layers.Activation('relu'),
         Dropout(0.5),
-        Dense(256, activation='relu'),
-        Dropout(0.3),
+
+        Dense(256, kernel_regularizer=tf.keras.regularizers.l2(1e-5)),
+        BatchNormalization(),
+        tf.keras.layers.Activation('relu'),
+        Dropout(0.4),
+
         Dense(num_classes, activation='sigmoid')
     ])
 
@@ -125,7 +139,7 @@ def get_model(model_type='baseline', img_size=(128, 128), num_classes=1):
         return build_improved_cnn(img_size, num_classes)
 
     elif model_type == 'efficientnet':
-        return build_efficientnet_transfer(img_size, num_classes)
+        return build_efficientnet_transfer(img_size, num_classes, trainable_base=False)
 
     else:
         raise ValueError(
