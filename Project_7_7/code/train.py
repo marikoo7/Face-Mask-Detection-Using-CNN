@@ -6,7 +6,7 @@ from tensorflow.keras.optimizers import Adam
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-from dataset import train_generator, val_generator, BATCH_SIZE, IMAGE_SIZE
+from dataset import get_generators, BATCH_SIZE, IMAGE_SIZE
 from model import get_model
 
 MODELS_TO_TRAIN = ['baseline', 'improved', 'efficientnet']
@@ -32,6 +32,10 @@ for MODEL_TYPE in MODELS_TO_TRAIN:
     print(f"--- STARTING TRAINING FOR: {MODEL_TYPE.upper()} MODEL ---")
     print("=" * 50)
 
+    train_generator, val_generator, _ = get_generators(MODEL_TYPE)
+    print(f"    Train samples: {train_generator.samples}")
+    print(f"    Val samples: {val_generator.samples}")
+
     SAVE_PATH = f'{SAVED_MODEL_DIR}/{MODEL_TYPE}_best_model.h5'
 
     if MODEL_TYPE == 'efficientnet':
@@ -39,13 +43,30 @@ for MODEL_TYPE in MODELS_TO_TRAIN:
     else:
         current_lr = LEARNING_RATE
 
-    checkpoint_callback = ModelCheckpoint(filepath=SAVE_PATH, monitor='val_accuracy', save_best_only=True, mode='max',
-                                          verbose=1)
-    early_stopping_callback = EarlyStopping(monitor='val_accuracy', patience=PATIENCE, mode='max',
-                                            restore_best_weights=True, verbose=1)
-    reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.3, patience=3, min_lr=1e-7, verbose=1)
+    checkpoint_callback = ModelCheckpoint(
+        filepath=SAVE_PATH,
+        monitor='val_accuracy',
+        save_best_only=True,
+        mode='max',
+        verbose=1
+    )
 
-    CALLBACKS = [checkpoint_callback, early_stopping_callback, reduce_lr]
+    early_stopping_callback = EarlyStopping(
+        monitor='val_loss',
+        patience=5,
+        restore_best_weights=True,
+        verbose=1
+    )
+
+    reduce_lr = ReduceLROnPlateau(
+        monitor='val_loss',
+        factor=0.5,
+        patience=3,
+        min_lr=1e-7,
+        verbose=1
+    )
+
+    CALLBACKS = [checkpoint_callback,early_stopping_callback ,reduce_lr]
 
     if MODEL_TYPE == 'efficientnet':
         model, _ = get_model(MODEL_TYPE, img_size=IMG_SIZE, num_classes=NUM_CLASSES)
