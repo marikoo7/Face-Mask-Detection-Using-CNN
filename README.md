@@ -106,7 +106,7 @@ FACE-MASK-DETECTION-USING-CNN/
 
 │   │
 
-│   ├── Project by CNN.pdf         # Project documentation (PDF format)
+│   ├── Report.pdf         # Project documentation (PDF format)
 
 │   │
 
