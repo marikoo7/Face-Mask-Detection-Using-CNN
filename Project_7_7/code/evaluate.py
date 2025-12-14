@@ -45,7 +45,7 @@ def plot_training_history(model_type):
     history_path = f'{RESULTS_DIR}/{model_type}_history.pkl'
 
     if not os.path.exists(history_path):
-        print(f"⚠ History file not found: {history_path}")
+        print(f" History file not found: {history_path}")
         return
 
     with open(history_path, 'rb') as f:
@@ -76,7 +76,7 @@ def plot_training_history(model_type):
     plt.tight_layout()
     save_path = f'{RESULTS_DIR}/{model_type}_accuracy_loss_curves.png'
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
-    print(f"   ✅ Saved: {save_path}")
+    print(f"    Saved: {save_path}")
     plt.close()
 
 
@@ -97,7 +97,7 @@ def plot_confusion_matrix(y_true, y_pred, model_type, class_names):
     plt.tight_layout()
     save_path = f'{RESULTS_DIR}/{model_type}_confusion_matrix.png'
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
-    print(f"   ✅ Saved: {save_path}")
+    print(f"    Saved: {save_path}")
     plt.close()
 
 
@@ -122,7 +122,7 @@ def plot_roc_curve(y_true, y_pred_proba, model_type):
     plt.tight_layout()
     save_path = f'{RESULTS_DIR}/{model_type}_roc_curve.png'
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
-    print(f"   ✅ Saved: {save_path}")
+    print(f"    Saved: {save_path}")
     plt.close()
 
     return roc_auc
@@ -178,7 +178,7 @@ def plot_sample_predictions(model, test_generator, model_type, num_samples=12):
 
     save_path = f'{RESULTS_DIR}/{model_type}_sample_predictions.png'
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
-    print(f"   ✅ Saved: {save_path}")
+    print(f"    Saved: {save_path}")
     plt.close()
 
 
@@ -191,18 +191,18 @@ def evaluate_model(model_type):
     model_path = f'{SAVED_MODEL_DIR}/{model_type}_best_model.h5'
 
     if not os.path.exists(model_path):
-        print(f"❌ Model not found: {model_path}")
+        print(f" Model not found: {model_path}")
         return None
 
-    print(f"\n📂 Loading model...")
+    print(f"\n Loading model...")
     model = load_model(model_path)
 
-    print("📂 Loading test data...")
+    print(" Loading test data...")
     _, _, test_generator = get_generators(model_type)
 
     print(f"   Test samples: {test_generator.samples}")
 
-    print("\n🔮 Making predictions...")
+    print("\n Making predictions...")
     predictions_proba = model.predict(test_generator, verbose=1)
     y_pred = (predictions_proba > 0.5).astype(int).flatten()
     y_true = test_generator.classes
@@ -212,11 +212,11 @@ def evaluate_model(model_type):
     accuracy = np.mean(y_pred == y_true)
 
     print("\n" + "="*70)
-    print(f"📊 Test Accuracy: {accuracy*100:.2f}%")
+    print(f" Test Accuracy: {accuracy*100:.2f}%")
     print("="*70)
 
     # Classification report
-    print("\n📋 Classification Report:")
+    print("\n Classification Report:")
     report = classification_report(y_true, y_pred, target_names=class_names, digits=4)
     print(report)
 
@@ -227,16 +227,16 @@ def evaluate_model(model_type):
         f.write("="*70 + "\n\n")
         f.write(f"Test Accuracy: {accuracy*100:.2f}%\n\n")
         f.write(report)
-    print(f"✅ Report saved: {report_path}")
+    print(f" Report saved: {report_path}")
 
     # Generate plots
-    print("\n📊 Generating visualizations...")
+    print("\n Generating visualizations...")
     plot_training_history(model_type)
     plot_confusion_matrix(y_true, y_pred, model_type, class_names)
     roc_auc = plot_roc_curve(y_true, predictions_proba.flatten(), model_type)
     plot_sample_predictions(model, test_generator, model_type)
 
-    print(f"\n✅ Evaluation complete for {model_type.upper()}")
+    print(f"\n Evaluation complete for {model_type.upper()}")
 
     return {
         'model_type': model_type,
@@ -286,7 +286,7 @@ def create_comparison(results):
     plt.tight_layout()
     save_path = f'{RESULTS_DIR}/model_comparison.png'
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
-    print(f"✅ Saved: {save_path}")
+    print(f" Saved: {save_path}")
     plt.close()
 
     # Summary
@@ -306,7 +306,7 @@ def create_comparison(results):
         f.write(f"\nBEST MODEL: {best['model_type'].upper()}\n")
         f.write(f"   Accuracy: {best['accuracy']*100:.2f}%\n")
 
-    print(f"✅ Summary saved: {summary_path}")
+    print(f" Summary saved: {summary_path}")
 
 
 # ============================================================
@@ -325,7 +325,7 @@ if __name__ == "__main__":
         create_comparison(results)
 
         print("\n" + "="*70)
-        print("✅ ALL EVALUATIONS COMPLETE!")
+        print(" ALL EVALUATIONS COMPLETE!")
         print("="*70)
         print(f"\nFiles generated in {RESULTS_DIR}/")
         print("  Ready for Person 5 to write the report!")
