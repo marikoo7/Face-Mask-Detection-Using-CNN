@@ -1,0 +1,18 @@
+FACE MASK DETECTION - FINAL SUMMARY
+======================================================================
+
+1. EFFICIENTNET
+   Accuracy: 98.31%
+   AUC: 0.9984
+
+2. IMPROVED
+   Accuracy: 88.98%
+   AUC: 0.9871
+
+3. BASELINE
+   Accuracy: 78.05%
+   AUC: 0.8524
+
+
+BEST MODEL: EFFICIENTNET
+   Accuracy: 98.31%

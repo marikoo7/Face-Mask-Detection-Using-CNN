@@ -70,6 +70,81 @@ BATCH_SIZE = 32
 #         count = len(os.listdir(path))
 #         print(f"{cls}: {count} images")
 
+
+def get_generators(model_type='baseline'):
+
+    print(f"Creating generators for {model_type} model...")
+
+    # EfficientNet needs special preprocessing
+    if model_type.lower() == 'efficientnet':
+
+        train_datagen = ImageDataGenerator(
+            preprocessing_function=preprocess_input,
+            rotation_range=20,
+            width_shift_range=0.1,
+            height_shift_range=0.1,
+            zoom_range=0.1,
+            shear_range=0.1,
+            horizontal_flip=True,
+        )
+
+        test_val_datagen = ImageDataGenerator(
+            preprocessing_function=preprocess_input
+        )
+
+    else:
+
+        train_datagen = ImageDataGenerator(
+            rescale=1. / 255,  # ← CRITICAL: Regular rescaling!
+            rotation_range=20,
+            width_shift_range=0.1,
+            height_shift_range=0.1,
+            zoom_range=0.1,
+            shear_range=0.1,
+            horizontal_flip=True,
+            brightness_range=(0.8, 1.2),
+        )
+
+        test_val_datagen = ImageDataGenerator(
+            rescale=1. / 255  # ← CRITICAL: Regular rescaling!
+        )
+
+    # Create generators
+    train_gen = train_datagen.flow_from_directory(
+        os.path.join(OUTPUT_DIR, "train"),
+        target_size=IMAGE_SIZE,
+        batch_size=BATCH_SIZE,
+        class_mode='binary',
+        shuffle=True
+    )
+
+    val_gen = test_val_datagen.flow_from_directory(
+        os.path.join(OUTPUT_DIR, "val"),
+        target_size=IMAGE_SIZE,
+        batch_size=BATCH_SIZE,
+        class_mode='binary',
+        shuffle=False
+    )
+
+    test_gen = test_val_datagen.flow_from_directory(
+        os.path.join(OUTPUT_DIR, "test"),
+        target_size=IMAGE_SIZE,
+        batch_size=BATCH_SIZE,
+        class_mode='binary',
+        shuffle=False
+    )
+
+    print(f"   Generators created successfully")
+    print(f"   Train: {train_gen.samples} samples")
+    print(f"   Val: {val_gen.samples} samples")
+    print(f"   Test: {test_gen.samples} samples")
+
+    return train_gen, val_gen, test_gen
+
+
+
+print("Creating default generators...")
+
 train_datagen = ImageDataGenerator(
     preprocessing_function=preprocess_input,
     rotation_range=20,

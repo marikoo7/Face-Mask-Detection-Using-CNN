@@ -1,0 +1,13 @@
+IMPROVED MODEL - CLASSIFICATION REPORT
+======================================================================
+
+Test Accuracy: 88.98%
+
+              precision    recall  f1-score   support
+
+   with_mask     0.9856    0.7961    0.8808      1118
+without_mask     0.8224    0.9878    0.8976      1069
+
+    accuracy                         0.8898      2187
+   macro avg     0.9040    0.8920    0.8892      2187
+weighted avg     0.9058    0.8898    0.8890      2187
