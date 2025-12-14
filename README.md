@@ -70,10 +70,15 @@ Each model is trained independently, and the best checkpoint is saved based on v
 Models are evaluated using a separate test set. The evaluation includes:
 
 1.Test Accuracy
+
 2.Precision, Recall, and F1-score
+
 3.Confusion Matrix
+
 3.ROC Curve and AUC
+
 4.Training Accuracy and Loss Curves
+
 5.Sample Prediction Visualizations
 
 A final comparison is performed to rank models based on accuracy and AUC.
@@ -89,12 +94,15 @@ Best Model: EfficientNetB0
 
 ## How to Run
 1.Install dependencies:
+
 pip install tensorflow numpy matplotlib seaborn scikit-learn pillow
 
 2.Train models:
+
 python train.py
 
 3.Evaluate models:
+
 python evaluate.py
 
 
