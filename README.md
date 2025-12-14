@@ -94,15 +94,12 @@ Best Model: EfficientNetB0
 
 ## How to Run
 1.Install dependencies:
-
 pip install tensorflow numpy matplotlib seaborn scikit-learn pillow
 
 2.Train models:
-
 python train.py
 
 3.Evaluate models:
-
 python evaluate.py
 
 
