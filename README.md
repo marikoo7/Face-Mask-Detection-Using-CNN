@@ -24,12 +24,19 @@ Preprocessing and augmentation are applied to improve model generalization. Effi
 ## Project Structure
 .
 ├── dataset.py          # Dataset preparation and data generators
+
 ├── model.py            # Model architectures (Baseline, Improved, EfficientNetB0)
+
 ├── train.py            # Training pipeline and callbacks
+
 ├── evaluate.py         # Evaluation, visualization, and model comparison
+
 ├── utils.py            # Model summaries and statistics
+
 ├── saved_model/        # Saved best models
+
 ├── results/            # Evaluation results and plots
+
 └── README.md           # Project documentation
 
 ## Models Implemented
