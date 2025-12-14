@@ -23,49 +23,93 @@ Preprocessing and augmentation are applied to improve model generalization. Effi
 
 ## Project Structure
 FACE-MASK-DETECTION-USING-CNN/
+
 │
+
 ├── Project_7_7/
+
 │   │
+
 │   ├── .idea/                     # IDE configuration files
+
 │   │   ├── inspectionProfiles/
+
 │   │   ├── profiles_settings.xml
+
 │   │   ├── misc.xml
+
 │   │   └── vcs.xml
+
 │   │
+
 │   ├── code/
+
 │   │   ├── __pycache__/            # Cached Python bytecode files
+
 │   │   │   ├── model.cpython-313.pyc
+
 │   │   │   └── utils.cpython-313-pytest-8.3.4.pyc
+
 │   │   │
+
 │   │   ├── dataset_split/          # Dataset after splitting
+
 │   │   │   ├── train/
+
 │   │   │   │   ├── with_mask/
+
 │   │   │   │   └── without_mask/
+
 │   │   │   │
+
 │   │   │   ├── val/
+
 │   │   │   │   ├── with_mask/
+
 │   │   │   │   └── without_mask/
+
 │   │   │   │
+
 │   │   │   └── test/
+
 │   │   │       ├── with_mask/
+
 │   │   │       └── without_mask/
+
 │   │   │
+
 │   │   ├── raw_images_combined/    # Raw dataset before splitting
+
 │   │   │   ├── with_mask/
+
 │   │   │   └── without_mask/
+
 │   │   │
+
 │   │   ├── dataset.py              # Dataset preparation and generators
+
 │   │   ├── model.py                # Model architectures
+
 │   │   ├── train.py                # Training pipeline
+
 │   │   ├── evaluate.py             # Evaluation and visualization
+
 │   │   └── utils.py                # Model summaries and statistics
+
 │   │
+
 │   ├── results/                    # Evaluation outputs and plots
+
 │   │
+
 │   ├── saved_model/                # Saved trained models
+
 │   │
+
 │   ├── Project by CNN.pdf         # Project documentation (PDF format)
+
 │   │
+
 │   └── README.md                   # Project README file
 
 
