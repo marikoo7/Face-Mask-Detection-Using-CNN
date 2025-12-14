@@ -23,9 +23,7 @@ from sklearn.metrics import (
 from dataset import get_generators
 
 
-# ============================================================
-# CONFIGURATION
-# ============================================================
+
 MODELS_TO_EVALUATE = ['baseline','improved','efficientnet'] #, ',
 SAVED_MODEL_DIR = '../saved_model'
 RESULTS_DIR = '../results'
@@ -37,9 +35,7 @@ print("FACE MASK DETECTION - MODEL EVALUATION")
 print("="*70)
 
 
-# ============================================================
-# HELPER FUNCTIONS
-# ============================================================
+
 def plot_training_history(model_type):
     """Plot training curves"""
     history_path = f'{RESULTS_DIR}/{model_type}_history.pkl'
@@ -309,9 +305,7 @@ def create_comparison(results):
     print(f" Summary saved: {summary_path}")
 
 
-# ============================================================
-# MAIN
-# ============================================================
+
 if __name__ == "__main__":
 
     results = []
