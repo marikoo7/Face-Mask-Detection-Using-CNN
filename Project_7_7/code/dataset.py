@@ -75,7 +75,7 @@ def get_generators(model_type='baseline'):
 
     print(f"Creating generators for {model_type} model...")
 
-    # EfficientNet needs special preprocessing
+   
     if model_type.lower() == 'efficientnet':
 
         train_datagen = ImageDataGenerator(
@@ -95,7 +95,7 @@ def get_generators(model_type='baseline'):
     else:
 
         train_datagen = ImageDataGenerator(
-            rescale=1. / 255,  # ← CRITICAL: Regular rescaling!
+            rescale=1. / 255,  
             rotation_range=20,
             width_shift_range=0.1,
             height_shift_range=0.1,
@@ -106,10 +106,10 @@ def get_generators(model_type='baseline'):
         )
 
         test_val_datagen = ImageDataGenerator(
-            rescale=1. / 255  # ← CRITICAL: Regular rescaling!
+            rescale=1. / 255  
         )
 
-    # Create generators
+  
     train_gen = train_datagen.flow_from_directory(
         os.path.join(OUTPUT_DIR, "train"),
         target_size=IMAGE_SIZE,
